@@ -3,6 +3,10 @@
 #@DESCRIPTION: Common support for Optologic Displays on Toradex starter kit.
 #@MAINTAINER: OPTO Logic TECHNOLOGY S.A. <support@optologic.ch>
 
+# Build the Optologic Display overlays for Toradex SoMs
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append:ti-soc = " device-tree-overlays-optologic-ti"
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append:imx-generic-bsp = " device-tree-overlays-optologic-nxp"
+
 # List of Optologic overlays to compile and include in the image.
 # Relies on using a MACHINE as defined by Toradex, like the other Toradex
 # kernel recipes rely on. This assignment doesn't support custom MACHINE names.
