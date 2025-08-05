@@ -1,6 +1,6 @@
 # OpenEmbedded/Yocto BSP Layer for Optologic devices for Toradex Modules
 
-This README file contains information on the contents of the meta-optologic-tdx layer.
+This README file contains information on the contents of the meta-optologic-tdx-* layer.
 
 This layer contains Yocto recipes to configure the OPTO Logic display and touchscreen drivers for Toradex SoMs (System
 on Modules).
@@ -82,7 +82,9 @@ Then, add the layer to your `bblayers.conf` file:
 
 ```bash
 . export # This command must be run in the Toradex Yocto build environment
-bitbake-layers add-layer layers/meta-optologic/meta-optologic-tdx
+# Depending on your target architecture, use at least one of the following:
+bitbake-layers add-layer layers/meta-optologic/meta-optologic-tdx-ti
+bitbake-layers add-layer layers/meta-optologic/meta-optologic-tdx-nxp
 ```
 
 The layer provides additional recipes to build device tree overlays. It allows customizes some of Toradex's recipes to
