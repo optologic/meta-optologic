@@ -1,10 +1,7 @@
 #@TYPE: Machine Include
 #@NAME: Optologic Display support for Toradex boards
-#@DESCRIPTION: Adds support for Optologic Displays on Toradex starter kit with the Verdin and Colibri SoMs.
+#@DESCRIPTION: Common support for Optologic Displays on Toradex starter kit.
 #@MAINTAINER: OPTO Logic TECHNOLOGY S.A. <support@optologic.ch>
-
-# Build the Optologic Display overlays for Toradex SoMs
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "device-tree-overlays-optologic"
 
 # List of Optologic overlays to compile and include in the image.
 # Relies on using a MACHINE as defined by Toradex, like the other Toradex
