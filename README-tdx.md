@@ -52,6 +52,15 @@ These layers exact revisions are specified in the Toradex `repo` manifest:
     - tag: 7.3.0
     - branch: scarthgap-7.x.y
 
+## Structure
+
+In order to allow selecting between TI and NXP support, while factorizing common
+code, this layer is split into the following sub-layers:
+
+- `meta-optologic-tdx-common`: Contains common recipes and configurations for Optologic displays on Toradex boards.
+- `meta-optologic-tdx-ti`: Contains recipes and configurations specific to Toradex TI SoMs (e.g., Verdin AM62).
+- `meta-optologic-tdx-nxp`: Contains recipes and configurations specific to Toradex NXP SoMs (e.g., Verdin i.MX8M Plus).
+
 ## Contribute
 
 Please submit any patches and bug reports about the meta-optologic-tdx layer to the maintainer:
