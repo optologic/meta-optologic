@@ -82,6 +82,7 @@ Then, add the layer to your `bblayers.conf` file:
 
 ```bash
 . export # This command must be run in the Toradex Yocto build environment
+bitbake-layers add-layer layers/meta-optologic/meta-optologic-tdx-common
 # Depending on your target architecture, use at least one of the following:
 bitbake-layers add-layer layers/meta-optologic/meta-optologic-tdx-ti
 bitbake-layers add-layer layers/meta-optologic/meta-optologic-tdx-nxp
