@@ -1,7 +1,7 @@
 require recipes-kernel/linux/device-tree-overlays-optologic.inc
 
 SRCBRANCH_NXP = "linux-toradex-nxp-6.6.y"
-SRCREV_NXP = "89ef02fab41e06302ee8469ec65c0a92bea4f59b"
+SRCREV_NXP = "c4d12b243b2a118f61f2852dd3cafebe68161e55"
 
 SRCBRANCH:verdin-imx8mp = "${SRCBRANCH_NXP}"
 SRCREV:verdin-imx8mp = "${SRCREV_NXP}"
