@@ -8,18 +8,11 @@ on Modules).
 ## Supported Hardware
 
 The following displays are supported:
- - OPTO Logic 5" Display with ILI2117 touchscreen and backlight
  - OPTO Logic 7" Display with ILI2117 touchscreen and backlight
- - OPTO Logic 10" Display with ILI2117 touchscreen and backlight
 
 The following SoMs platforms are supported:
  - Toradex Verdin AM62
- - Toradex Verdin AM62P
  - Toradex Verdin i.MX8M Plus
- - Toradex Verdin i.MX8M Mini
- - Toradex Verdin i.MX95
- - Toradex Colibri i.MX8X
-
 
 ## Supported Distributions
 
