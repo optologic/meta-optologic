@@ -14,7 +14,9 @@ inherit toradex-devicetree
 # but rather provide additional overlays.
 PROVIDES = "${PN}"
 
-SRC_URI = "git://github.com/optologic/device-tree-overlays-optologic.git;protocol=https;branch=main"
+S = "${WORKDIR}/git"
+
+SRC_URI = "git://github.com/optologic/device-tree-overlays-optologic.git;protocol=https;branch=${SRCBRANCH}"
 
 TEZI_EXTERNAL_KERNEL_DEVICETREE = "${OPTOLOGIC_DEVICETREE_OVERLAYS}"
 
