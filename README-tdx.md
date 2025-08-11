@@ -8,7 +8,9 @@ on Modules).
 ## Supported Hardware
 
 The following displays are supported:
+ - OPTO Logic 5" Display with ILI2117 touchscreen and backlight
  - OPTO Logic 7" Display with ILI2117 touchscreen and backlight
+ - OPTO Logic 10" Display with ILI2117 touchscreen and backlight
 
 The following SoMs platforms are supported:
  - Toradex Verdin AM62
@@ -103,7 +105,7 @@ documentation](https://developer.toradex.com/linux-bsp/os-development/build-yoct
 Our layer provides a device-tree-overlay recipe: `device-tree-overlays-optologic`. In order to load one automatically at
 boot, you need to set the `OPTOLOGIC_DEVICETREE_OVERLAYS_BOOT` variable in your layer configuration file (e.g.,
 `meta-customer/conf/machine/verdin-am62-extra.conf`). This file is automatically included by the Toradex Yocto BSP build
-system.
+system. For prototyping, you may also write this variable in the `build/conf/local.conf` file.
 
 You may choose among the following overlays (uncomment the one you want to use):
 
