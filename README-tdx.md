@@ -76,7 +76,7 @@ You should first download this layer within the Toradex Yocto BSP layers tree:
 ```bash
 cd <path-to-toradex-yocto-bsp>
 cd layers
-git clone https://github.com/optologic/meta-optologic.git
+git clone https://github.com/optologic/meta-optologic.git -b <yocto-version>
 cd ..
 ```
 
