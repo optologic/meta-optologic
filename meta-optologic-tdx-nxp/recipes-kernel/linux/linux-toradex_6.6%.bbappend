@@ -4,3 +4,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux:"
 SRC_URI += " \
     file://touch-ili2117.cfg \
     "
+
+SRC_URI:append:mx8mp-nxp-bsp = " \
+    file://0001-remove-mode-fixup.patch \
+    "

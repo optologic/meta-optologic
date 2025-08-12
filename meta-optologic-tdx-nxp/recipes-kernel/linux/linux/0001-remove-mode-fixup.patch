@@ -1,0 +1,56 @@
+From 9156e650f00311fa80b11e6bab2ce937b2010990 Mon Sep 17 00:00:00 2001
+From: Enguerrand de Ribaucourt
+ <enguerrand.de-ribaucourt@savoir-fairelinux.com>
+Date: Tue, 12 Aug 2025 14:41:53 +0200
+Subject: [PATCH] This patch removes the mode fixup for the i.MX8mp display
+ pipeline, as it is not defining a frequency which works for the OPTO Logic
+ 5-inch display.
+
+Source:
+https://developer.toradex.com/linux-bsp/application-development/multimedia/display-output-resolution-and-timings-linux/?utm_source=chatgpt.com#verdin-imx8m-plus-lvds-known-issues
+
+Upstream-Status: Inappropriate [Optologic-specific]
+---
+ drivers/gpu/drm/imx/imx8mp-ldb.c | 19 -------------------
+ 1 file changed, 19 deletions(-)
+
+diff --git a/drivers/gpu/drm/imx/imx8mp-ldb.c b/drivers/gpu/drm/imx/imx8mp-ldb.c
+index e3f5c5e6e842..55dbafa863cf 100644
+--- a/drivers/gpu/drm/imx/imx8mp-ldb.c
++++ b/drivers/gpu/drm/imx/imx8mp-ldb.c
+@@ -186,15 +186,6 @@ imx8mp_ldb_encoder_atomic_check(struct drm_encoder *encoder,
+ 		return -EINVAL;
+ 	}
+ 
+-	/*
+-	 * Due to limited video PLL frequency points on i.MX8mp,
+-	 * we do mode fixup here in case any mode is unsupported.
+-	 */
+-	if (ldb->dual)
+-		mode->clock = mode->clock > 100000 ? 148500 : 74250;
+-	else
+-		mode->clock = 74250;
+-
+ 	return 0;
+ }
+ 
+@@ -212,16 +203,6 @@ imx8mp_ldb_encoder_mode_valid(struct drm_encoder *encoder,
+ 	if (ldb_ch->panel)
+ 		return MODE_OK;
+ 
+-	/*
+-	 * Due to limited video PLL frequency points on i.MX8mp,
+-	 * we do mode valid check here.
+-	 */
+-	if (ldb->dual && mode->clock != 74250 && mode->clock != 148500)
+-		return MODE_NOCLOCK;
+-
+-	if (!ldb->dual && mode->clock != 74250)
+-		return MODE_NOCLOCK;
+-
+ 	return MODE_OK;
+ }
+ 
+-- 
+2.43.0
+
