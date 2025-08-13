@@ -104,12 +104,12 @@ documentation](https://developer.toradex.com/linux-bsp/os-development/build-yoct
 
 Our layer provides a device-tree-overlay recipe: `device-tree-overlays-optologic`. In order to load one automatically at
 boot, you need to set the `OPTOLOGIC_DEVICETREE_OVERLAYS_BOOT` variable in your layer configuration file (e.g.,
-`meta-customer/conf/machine/verdin-am62-extra.conf`). This file is automatically included by the Toradex Yocto BSP build
+`meta-customer/conf/machine/include/${MACHINE}.inc`). This file is automatically included by the Toradex Yocto BSP build
 system. For prototyping, you may also write this variable in the `build/conf/local.conf` file.
 
 You may choose among the following overlays (uncomment the one you want to use):
 
-`${MACHINE}-extra.conf`:
+`${MACHINE}.inc`:
 
 ```bitbake
 # OPTOLOGIC_DEVICETREE_OVERLAYS_BOOT = "${MACHINE}_optologic_panel-cap-touch-5inch-lvds_overlay.dtbo"
