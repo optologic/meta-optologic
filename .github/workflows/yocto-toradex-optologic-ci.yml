@@ -1,0 +1,72 @@
+name: Yocto Optologic Toradex CI
+
+on:
+  push:
+    branches:
+      - scarthgap
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Builds are expensive, discard the older ones on this github branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-yocto:
+    name: Build Toradex Yocto BSP
+    runs-on: [self-hosted, cqfd, fast]
+    strategy:
+      matrix:
+        machine: [verdin-am62, verdin-imx8mp]
+    env:
+      TORADEX_MANIFEST_URL: https://git.toradex.com/toradex-manifest.git
+      TORADEX_MANIFEST: tdxref/default.xml
+      TORADEX_BRANCH: scarthgap-7.x.y
+      # Build in a sub directory that's easy to clean
+      WORKSPACE: workspace-${{ github.run_id }}-${{ matrix.machine }}
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Prepare workspace
+        run: |
+          echo "Building in $(realpath ${WORKSPACE})"
+          mkdir -p "${WORKSPACE}"
+
+      - name: Fetch Toradex BSP
+        run: |
+          repo init -u "${TORADEX_MANIFEST_URL}" -m "${TORADEX_MANIFEST}" -b "${TORADEX_BRANCH}"
+          repo sync -j8
+        working-directory: ${{ env.WORKSPACE }}
+
+      - name: Checkout meta-optologic
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.WORKSPACE }}/layers/meta-optologic
+
+      - name: Prepare docker environment
+        run: |
+          cqfd -f layers/meta-optologic/.cqfdrc -d layers/meta-optologic/.cqfd init
+        working-directory: ${{ env.WORKSPACE }}
+
+      - name: Bitbake build
+        # sourcing our local bash profile login which configures the sstate cache through CQFD_EXTRA_RUN_ARGS and BB_ENV_PASSTHROUGH_ADDITIONS
+        run: |
+          source /etc/bash.bashrc
+          cqfd -f layers/meta-optologic/.cqfdrc -d layers/meta-optologic/.cqfd run layers/meta-optologic/.cqfd/build.sh ${{ matrix.machine }}
+        working-directory: ${{ env.WORKSPACE }}
+
+      - name: Ensure device-tree-overlays were built
+        run: |
+          echo build/deploy/images/${{ matrix.machine }}/overlays/*optologic*.dtbo
+        working-directory: ${{ env.WORKSPACE }}
+
+      - name: Cleanup workspace
+        if: always()
+        run: |
+          rm -rf "${WORKSPACE}"
