@@ -1,0 +1,26 @@
+name: Hello build (Torizon scarthgap)
+
+on:
+  push:
+    branches: [github_ci]
+  pull_request:
+    branches: [github_ci]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  hello-ci:
+    name: Say hello
+    runs-on: [self-hosted, cqfd, fast]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Say world
+        run: echo "Hello, world!"
