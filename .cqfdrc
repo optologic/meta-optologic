@@ -1,0 +1,6 @@
+[project]
+org='optologic'
+name='toradex-yocto-bsp'
+
+[build]
+command='layers/meta-optologic/.cqfd/build.sh'
