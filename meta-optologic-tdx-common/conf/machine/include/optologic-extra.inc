@@ -18,4 +18,4 @@ OPTOLOGIC_DEVICETREE_OVERLAYS ?= " \
     "
 
 # Choose the OPTO logic Display to load at boot time by assigning this variable.
-OPTOLOGIC_DEVICETREE_OVERLAYS_BOOT ?= "${MACHINE}_optologic_panel-cap-touch-7inch-lvds_overlay.dtbo"
+OPTOLOGIC_DEVICETREE_OVERLAYS_BOOT ?= "${MACHINE}_optologic_panel-cap-touch-5inch-lvds_overlay.dtbo"
