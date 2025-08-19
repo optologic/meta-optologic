@@ -1,0 +1,82 @@
+name: Torizon Optologic binary image generation
+# Our support for the 5inch screen on Toradex Verdin i.MX8MP requires a kernel patch
+# This CI workflow builds and archives the Torizon Optologic binary image
+# See: meta-optologic-tdx-nxp/recipes-kernel/linux/linux-toradex_6.6%.bbappend
+
+on:
+  push:
+    branches:
+      - scarthgap
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Builds are expensive, discard the older ones on this github branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-torizon:
+    name: Build Toradex Torizon BSP
+    runs-on: [self-hosted, cqfd, fast]
+    strategy:
+      matrix:
+        machine: [verdin-imx8mp]
+    env:
+      TORADEX_MANIFEST_URL: https://git.toradex.com/toradex-manifest.git
+      TORADEX_MANIFEST: torizon/default.xml
+      TORADEX_BRANCH: scarthgap-7.x.y
+      # Build in a sub directory that's easy to clean
+      WORKSPACE: workspace-${{ github.run_id }}-${{ matrix.machine }}
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Prepare workspace
+        run: |
+          echo "Building in $(realpath ${WORKSPACE})"
+          mkdir -p "${WORKSPACE}"
+
+      - name: Fetch Torizon BSP
+        run: |
+          repo init -u "${TORADEX_MANIFEST_URL}" -m "${TORADEX_MANIFEST}" -b "${TORADEX_BRANCH}"
+          repo sync -j8
+        working-directory: ${{ env.WORKSPACE }}
+
+      - name: Checkout meta-optologic
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.WORKSPACE }}/layers/meta-optologic
+
+      - name: Prepare docker environment
+        run: |
+          cqfd -f layers/meta-optologic/.cqfdrc -d layers/meta-optologic/.cqfd init
+        working-directory: ${{ env.WORKSPACE }}
+
+      - name: Bitbake build
+        # sourcing our local bash profile login which configures the sstate cache through CQFD_EXTRA_RUN_ARGS and BB_ENV_PASSTHROUGH_ADDITIONS
+        run: |
+          source /etc/bash.bashrc
+          cqfd -f layers/meta-optologic/.cqfdrc -d layers/meta-optologic/.cqfd run layers/meta-optologic/.cqfd/build-torizon.sh ${{ matrix.machine }}
+        working-directory: ${{ env.WORKSPACE }}
+
+      - name: Ensure device-tree-overlays were built
+        run: |
+          echo build/deploy/images/${{ matrix.machine }}/overlays/*optologic*.dtbo
+        working-directory: ${{ env.WORKSPACE }}
+
+      - name: Archive Torizon binary image
+        uses: actions/upload-artifact@v4
+        with:
+          name: torizon-docker-${{ matrix.machine }}-5inch-Tezi.tar
+          path: ${{ env.WORKSPACE }}/build/deploy/images/${{ matrix.machine }}/torizon-docker-${{ matrix.machine }}-Tezi_*.tar
+
+      - name: Cleanup workspace
+        if: always()
+        run: |
+          rm -rf "${WORKSPACE}"
