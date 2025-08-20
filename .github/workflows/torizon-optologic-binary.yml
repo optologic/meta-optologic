@@ -9,6 +9,7 @@ on:
       - scarthgap
     tags:
       - 'v*'
+      - 'torizon*'
   workflow_dispatch:
 
 permissions:
