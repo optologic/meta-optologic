@@ -1,0 +1,25 @@
+From c6b634d8f23b14d7ca830925f63670d0bc6fe1a3 Mon Sep 17 00:00:00 2001
+From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Date: Thu, 21 Aug 2025 17:54:15 +0200
+Subject: [PATCH] colibri-imx8x: change default carrier board to iris-v2
+
+The iris-v2 is the only carrier board supporting LVDS.
+
+Upstream-Status: Inappropriate [Optologic-specific]
+---
+ include/configs/colibri-imx8x.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/configs/colibri-imx8x.h b/include/configs/colibri-imx8x.h
+index 8f2d49be3b1..3732a715423 100644
+--- a/include/configs/colibri-imx8x.h
++++ b/include/configs/colibri-imx8x.h
+@@ -38,7 +38,7 @@
+ 	MEM_LAYOUT_ENV_SETTINGS \
+ 	"boot_script_dhcp=boot.scr\0" \
+ 	"console=ttyLP3\0" \
+-	"fdt_board=eval-v3\0" \
++	"fdt_board=iris-v2\0" \
+ 	"initrd_addr=0x83800000\0" \
+ 	"initrd_high=0xffffffffffffffff\0" \
+ 	"setup=setenv setupargs console=tty1 console=${console},${baudrate} " \
