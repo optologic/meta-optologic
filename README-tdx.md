@@ -15,6 +15,7 @@ The following displays are supported:
 The following SoMs platforms are supported:
  - Toradex Verdin AM62
  - Toradex Verdin i.MX8M Plus
+ - Toradex Colibri i.MX8X (Requires the Iris-v2.0 carrier board)
 
 ## Supported Distributions
 
