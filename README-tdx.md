@@ -7,10 +7,10 @@ on Modules).
 
 ## Supported Hardware
 
-The following displays are supported:
- - OPTO Logic 5" Display with ILI2117 touchscreen and backlight
- - OPTO Logic 7" Display with ILI2117 touchscreen and backlight
- - OPTO Logic 10" Display with ILI2117 touchscreen and backlight
+The following OPTO Logic displays are supported:
+ - 5 inches (SCX0500132GGC06) with capacitive touchscreen (ILI2131)
+ - 7 inches (SCX0700117GGC03) with capacitive touchscreen (ILI2117A)
+ - 10.1 inches (SCX1001511GGC49) with capacitive touchscreen (ILI2511)
 
 The following SoMs platforms are supported:
  - Toradex Verdin AM62
@@ -114,9 +114,9 @@ You may choose among the following overlays (uncomment the one you want to use):
 `${MACHINE}.inc`:
 
 ```bitbake
-# OPTOLOGIC_DEVICETREE_OVERLAYS_BOOT = "${MACHINE}_optologic_panel-cap-touch-5inch-lvds_overlay.dtbo"
-# OPTOLOGIC_DEVICETREE_OVERLAYS_BOOT = "${MACHINE}_optologic_panel-cap-touch-7inch-lvds_overlay.dtbo"
-# OPTOLOGIC_DEVICETREE_OVERLAYS_BOOT = "${MACHINE}_optologic_panel-cap-touch-10inch-lvds_overlay.dtbo"
+# OPTOLOGIC_DEVICETREE_OVERLAYS_BOOT = "${MACHINE}_optologic_panel-cap-touch-5inch-SCX0500132GGC06-lvds_overlay.dtbo"
+# OPTOLOGIC_DEVICETREE_OVERLAYS_BOOT = "${MACHINE}_optologic_panel-cap-touch-7inch-SCX0700117GGC03-lvds_overlay.dtbo"
+# OPTOLOGIC_DEVICETREE_OVERLAYS_BOOT = "${MACHINE}_optologic_panel-cap-touch-10inch-SCX1001511GGC49-lvds_overlay.dtbo"
 ```
 
 The rest will be handled by our layer configuration. Feel free to take a look at the sources if you want more control

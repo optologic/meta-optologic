@@ -74,7 +74,7 @@ jobs:
       - name: Archive Torizon binary image
         uses: actions/upload-artifact@v4
         with:
-          name: torizon-docker-${{ matrix.machine }}-5inch-Tezi.tar
+          name: torizon-docker-${{ matrix.machine }}-5inch-SCX0500132GGC06-Tezi.tar
           path: ${{ env.WORKSPACE }}/build/deploy/images/${{ matrix.machine }}/torizon-docker-${{ matrix.machine }}-Tezi_*.tar
 
       - name: Cleanup workspace
