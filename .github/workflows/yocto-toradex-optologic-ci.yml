@@ -21,7 +21,7 @@ jobs:
     runs-on: [self-hosted, cqfd, fast]
     strategy:
       matrix:
-        machine: [verdin-am62, verdin-imx8mp, verdin-imx8mm, verdin-imx95, colibri-imx8x]
+        machine: [verdin-am62, verdin-am62p, verdin-imx8mp, verdin-imx8mm, verdin-imx95, colibri-imx8x]
     env:
       TORADEX_MANIFEST_URL: https://git.toradex.com/toradex-manifest.git
       TORADEX_MANIFEST: tdxref/default.xml
