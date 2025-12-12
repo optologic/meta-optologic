@@ -14,6 +14,7 @@ The following OPTO Logic displays are supported:
 
 The following SoMs platforms are supported:
  - Toradex Verdin AM62
+ - Toradex Verdin AM62P
  - Toradex Verdin i.MX8M Plus
  - Toradex Verdin i.MX8M Mini (Requires the [Verdin DSI to LVDS adapter](https://www.toradex.com/accessories/verdin-dsi-to-lvds-adapter) with a compatible carrier board)
  - Toradex Verdin i.MX95
