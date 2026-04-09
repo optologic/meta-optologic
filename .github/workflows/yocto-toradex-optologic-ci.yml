@@ -25,7 +25,7 @@ jobs:
     env:
       TORADEX_MANIFEST_URL: https://git.toradex.com/toradex-manifest.git
       TORADEX_MANIFEST: tdxref/default.xml
-      TORADEX_BRANCH: scarthgap-7.x.y
+      TORADEX_TAG: 7.3.0
       # Build in a sub directory that's easy to clean
       WORKSPACE: workspace-${{ github.run_id }}-${{ matrix.machine }}
     defaults:
@@ -40,7 +40,7 @@ jobs:
 
       - name: Fetch Toradex BSP
         run: |
-          repo init -u "${TORADEX_MANIFEST_URL}" -m "${TORADEX_MANIFEST}" -b "${TORADEX_BRANCH}"
+          repo init -u "${TORADEX_MANIFEST_URL}" -m "${TORADEX_MANIFEST}" -b refs/tags/"${TORADEX_TAG}"
           repo sync -j8
         working-directory: ${{ env.WORKSPACE }}
 
