@@ -29,6 +29,8 @@ if [ "$latest_stable_tag" != "$current_tag" ]; then
         echo -e "Failed to update the torizon-optologic-binary.yml workflow file with the new Toradex tag.\n"
         exit 1
     }
+
+    echo "latest_stable_tag=$latest_stable_tag" >> $GITHUB_OUTPUT
     exit 2
 else
     echo -e "The current Toradex revision is up to date: $current_tag\n"

@@ -1,0 +1,74 @@
+name: Yocto check Toradex manifest revision updates
+
+on:
+  schedule:
+      - cron: '0 6 * * 1' # Run every monday at 6:00 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-manifest-revision-updates:
+    name: Check for manifest revision updates
+    runs-on: [self-hosted]
+    env:
+      WORKSPACE: workspace-${{ github.run_id }}-yocto-revision-updates
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Prepare workspace
+        run: |
+            echo "Work in $(realpath ${WORKSPACE})"
+            mkdir -p "${WORKSPACE}"
+
+      - name: Checkout meta-optologic
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.WORKSPACE }}/meta-optologic
+
+      - name: Check for manifest revision updates
+        id: check-for-manifest-revision-updates
+        run: |
+            set +e
+            ./meta-optologic/.github/scripts/check-toradex-revision-updates.sh
+            exit_code="$?"
+            echo "exit_code=$exit_code" >> $GITHUB_OUTPUT
+            if [[ $exit_code -eq 1 ]]; then
+                exit 1
+            fi
+        working-directory: ${{ env.WORKSPACE }}
+
+      - name: Check for closed pull request on the toradex-manifest-update/${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}} branch
+        if: steps.check-for-manifest-revision-updates.outputs.exit_code == '2'
+        id: find-pull-request
+        uses: juliangruber/find-pull-request-action@v1
+        with:
+            state: closed
+            branch: toradex-manifest-update/${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}}
+
+      - name: Open a pull request with the updated manifest
+        if: steps.check-for-manifest-revision-updates.outputs.exit_code == '2' && steps.find-pull-request.outputs.matching-pr-count == 0
+        id: cpr
+        uses: peter-evans/create-pull-request@v8
+        with:
+            token: ${{ secrets.AUTO_UPDATE_TOKEN }}
+            commit-message: ".github:workflows: update Toradex manifest revision to the ${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}} version"
+            title: Update Toradex manifest revision to the ${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}} version
+            body: This pull request updates the Toradex manifest revision to the ${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}} version.
+            path: ${{ env.WORKSPACE }}/meta-optologic
+            branch: toradex-manifest-update/${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}}
+            signoff: true
+
+      - name: Output pull request details
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+
+      - name: Cleanup workspace
+        if: always()
+        run: |
+            rm -rf "${WORKSPACE}"
