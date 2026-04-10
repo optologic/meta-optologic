@@ -66,6 +66,13 @@ jobs:
           echo build/deploy/images/${{ matrix.machine }}/overlays/*optologic*.dtbo
         working-directory: ${{ env.WORKSPACE }}
 
+      - name: Archive Yocto images
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.machine }}_Reference-Minimal-Image-Tezi.tar
+          path: ${{ env.WORKSPACE }}/build/deploy/images/${{ matrix.machine }}/*_Reference-Minimal-Image-Tezi_*.tar
+          archive: false
+
       - name: Cleanup workspace
         if: always()
         run: |
