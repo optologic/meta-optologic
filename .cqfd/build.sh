@@ -46,4 +46,4 @@ if [ "$MACHINE" = "verdin-imx8mp" ]; then
 fi
 
 # Run bitbake
-bitbake -k tdx-reference-minimal-image
+bitbake -k tdx-reference-multimedia-image
