@@ -7,9 +7,13 @@ permissions:
   contents: write
 
 jobs:
+  generate-torizon-optologic-binaries:
+    uses: ./.github/workflows/torizon-optologic-binary.yml
+
   release-yocto-optologic:
     name: Tag and release meta-optologic
     runs-on: [ubuntu-latest]
+    needs: [generate-torizon-optologic-binaries]
     defaults:
       run:
         shell: bash
@@ -88,6 +92,9 @@ jobs:
 
           git tag ${{ steps.tag.outputs.new_tag }}
           git push origin ${{ steps.tag.outputs.new_tag }}
+
+      - name: Get Torizon Optologic binary images
+        uses: actions/download-artifact@v8
 
       - name: Create GitHub Release
         if: steps.check_changes.outputs.changes == 'true'
