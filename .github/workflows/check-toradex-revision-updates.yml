@@ -49,6 +49,15 @@ jobs:
             state: closed
             branch: toradex-manifest-update/${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}}
 
+      - name: Read PR template
+        if: steps.check-for-manifest-revision-updates.outputs.exit_code == '2' && steps.find-pull-request.outputs.matching-pr-count == 0
+        id: pr_template
+        run: |
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          cat meta-optologic/.github/pull_request_template.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        working-directory: ${{ env.WORKSPACE }}
+
       - name: Open a pull request with the updated manifest
         if: steps.check-for-manifest-revision-updates.outputs.exit_code == '2' && steps.find-pull-request.outputs.matching-pr-count == 0
         id: cpr
@@ -57,7 +66,10 @@ jobs:
             token: ${{ secrets.AUTO_UPDATE_TOKEN }}
             commit-message: ".github:workflows: update Toradex manifest revision to the ${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}} version"
             title: Update Toradex manifest revision to the ${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}} version
-            body: This pull request updates the Toradex manifest revision to the ${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}} version.
+            body: |
+                # Description
+                This pull request updates the Toradex manifest revision to the ${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}} version.
+                ${{ steps.pr_template.outputs.body }}
             path: ${{ env.WORKSPACE }}/meta-optologic
             branch: toradex-manifest-update/${{steps.check-for-manifest-revision-updates.outputs.latest_stable_tag}}
             signoff: true
