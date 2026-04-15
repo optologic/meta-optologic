@@ -25,7 +25,7 @@ jobs:
             mkdir -p "${WORKSPACE}"
 
       - name: Checkout meta-optologic
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKSPACE }}/meta-optologic
 
