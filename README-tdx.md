@@ -161,6 +161,6 @@ the updated configurations if there are any updates available.
 A release workflow could be triggered manually from the "Actions" tab of this
 repository by selecting the "Yocto Optologic release" workflow and clicking on
 "Run workflow". This will create a tag on each branch with the format:
-`toradex-bsp-<torizon_version>-optologic-<major>.≤minor> for example:
+`toradex-bsp-<torizon_version>-optologic-<major>.≤minor>` for example:
 `toradex-bsp-7.3.0-optologic-1.0` and publish the corresponding sources as
 release assets on GitHub.
