@@ -138,3 +138,29 @@ bitbake tdx-reference-multimedia-image
 We recommend to then flash the image to your target using the Toradex Easy Installer (TEZI) tool. You can find more
 information on how to use TEZI in the [Toradex Easy Installer
 documentation](https://developer.toradex.com/easy-installer/toradex-easy-installer/flashing-new-image-using-tezi#install-os-images).
+
+## CI
+
+This repository includes CI pipelines to automatically build Toradex images
+for the supported hardware and Toradex versions. The CI pipelines are triggered
+on every push to the repository, and the resulting images are published as
+artifacts of the CI run.
+
+### Toradex manifest Update Checker
+
+An automatic workflow is running every week (on Monday) to check for new toradex
+BSP versions and create a pull request with the updated configurations if
+necessary.
+You can also trigger this workflow manually from the "Actions" tab of this
+repository by selecting the "Yocto check Toradex manifest revision updates"
+workflow and clicking on "Run workflow". This will create a pull request with
+the updated configurations if there are any updates available.
+
+### Release CI
+
+A release workflow could be triggered manually from the "Actions" tab of this
+repository by selecting the "Yocto Optologic release" workflow and clicking on
+"Run workflow". This will create a tag on each branch with the format:
+`toradex-bsp-<torizon_version>-optologic-<major>.≤minor> for example:
+`toradex-bsp-7.3.0-optologic-1.0` and publish the corresponding sources as
+release assets on GitHub.
