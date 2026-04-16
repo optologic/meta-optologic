@@ -30,6 +30,22 @@ if [ "$latest_stable_tag" != "$current_tag" ]; then
         exit 1
     }
 
+    latest_stable_tag_commit=$(git ls-remote --tags https://git.toradex.com/toradex-manifest.git | grep "refs/tags/$latest_stable_tag$" | awk '{print $1}') || {
+        echo -e "Failed to fetch the commit hash for the latest stable tag from the Toradex manifest repository.\n"
+        exit 1
+    }
+    current_tag_commit=$(git ls-remote --tags https://git.toradex.com/toradex-manifest.git | grep "refs/tags/$current_tag$" | awk '{print $1}') || {
+        echo -e "Failed to fetch the commit hash for the current tag from the Toradex manifest repository.\n"
+        exit 1
+    }
+
+    sed -i "s/Toradex Yocto BSP \s*$current_tag/Toradex Yocto BSP $latest_stable_tag/g" $SCRIPT_DIR/../../README-tdx.md &&
+    sed -i "s/tag:\s*$current_tag/tag: $latest_stable_tag/g" $SCRIPT_DIR/../../README-tdx.md &&
+    sed -i "s/commit:\s*$current_tag_commit/commit: $latest_stable_tag_commit/g" $SCRIPT_DIR/../../README-tdx.md || {
+        echo -e "Failed to update the README-tdx.md file with the new Toradex tag.\n"
+        exit 1
+    }
+
     echo "latest_stable_tag=$latest_stable_tag" >> $GITHUB_OUTPUT
     exit 2
 else
