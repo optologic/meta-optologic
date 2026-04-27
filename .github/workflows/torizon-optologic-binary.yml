@@ -1,5 +1,5 @@
 name: Torizon Optologic binary image generation
-# Our support for the 5inch screen on Toradex Verdin i.MX8MP requires a kernel patch
+# Our support for the Toradex Verdin i.MX8MP requires a kernel patch
 # This CI workflow builds and archives the Torizon Optologic binary image
 # See: meta-optologic-tdx-nxp/recipes-kernel/linux/linux-toradex_6.6%.bbappend
 
@@ -29,6 +29,7 @@ jobs:
     strategy:
       matrix:
         machine: [verdin-imx8mp]
+        display: [5inch-SCX0500132GGC06, 7inch-SCX0700117GGC03, 10inch-SCX1001511GGC49]
     env:
       TORADEX_MANIFEST_URL: https://git.toradex.com/toradex-manifest.git
       TORADEX_MANIFEST: torizon/default.xml
@@ -65,7 +66,7 @@ jobs:
         # sourcing our local bash profile login which configures the sstate cache through CQFD_EXTRA_RUN_ARGS and BB_ENV_PASSTHROUGH_ADDITIONS
         run: |
           source /etc/bash.bashrc
-          cqfd -f layers/meta-optologic/.cqfdrc -d layers/meta-optologic/.cqfd run layers/meta-optologic/.cqfd/build-torizon.sh ${{ matrix.machine }}
+          cqfd -f layers/meta-optologic/.cqfdrc -d layers/meta-optologic/.cqfd run layers/meta-optologic/.cqfd/build-torizon.sh ${{ matrix.machine }} ${{ matrix.display }}
         working-directory: ${{ env.WORKSPACE }}
 
       - name: Ensure device-tree-overlays were built
@@ -76,7 +77,7 @@ jobs:
       - name: Archive Torizon binary image
         uses: actions/upload-artifact@v4
         with:
-          name: torizon-docker-${{ matrix.machine }}-5inch-SCX0500132GGC06-Tezi.tar
+          name: torizon-docker-${{ matrix.machine }}-${{ matrix.display }}-Tezi.tar
           path: ${{ env.WORKSPACE }}/build/deploy/images/${{ matrix.machine }}/torizon-docker-${{ matrix.machine }}-Tezi_*.tar
 
       - name: Cleanup workspace
