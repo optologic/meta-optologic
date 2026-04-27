@@ -52,6 +52,19 @@
      - [ ] backlight
      - [ ] display
      - [ ] touch
+## iMX8MP (torizon binary images)
+  * 5" screen
+     - [ ] backlight
+     - [ ] display
+     - [ ] touch
+  * 7" screen
+     - [ ] backlight
+     - [ ] display
+     - [ ] touch
+  * 10" screen
+     - [ ] backlight
+     - [ ] display
+     - [ ] touch
 ## iMX8QXP
   * 5" screen
      - [ ] backlight
