@@ -25,7 +25,7 @@ jobs:
     env:
       TORADEX_MANIFEST_URL: https://git.toradex.com/toradex-manifest.git
       TORADEX_MANIFEST: tdxref/default.xml
-      TORADEX_TAG: 7.3.0
+      TORADEX_TAG: 7.7.0-devel-202605
       # Build in a sub directory that's easy to clean
       WORKSPACE: workspace-${{ github.run_id }}-${{ matrix.machine }}
     defaults:
