@@ -23,7 +23,7 @@ The following SoMs platforms are supported:
 ## Supported Distributions
 
 The OPTO Logic BSP layers are compatible with the following distributions:
- - Toradex Yocto BSP 7.5.0 (Yocto Scarthgap)
+ - Toradex Yocto BSP 7.6.2 (Yocto Scarthgap)
 
 Please check-out the appropriate branch corresponding to the version of the Toradex BSP you are using.
 
@@ -47,8 +47,8 @@ These layers exact revisions are specified in the Toradex `repo` manifest:
 
   - URI: [toradex-manifest](https://git.toradex.com/toradex-manifest.git)
     - file: `tdxref/default.xml`
-    - commit: f63ef856f15de0111ada10b3e598217083dd4bc0
-    - tag: 7.5.0
+    - commit: f8451f42b6e877e53f4f390ec0d64e4b50f9d22e
+    - tag: 7.6.2
     - branch: scarthgap-7.x.y
 
 ## Structure
